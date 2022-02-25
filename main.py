@@ -10,15 +10,6 @@ from webdriver_manager.firefox import GeckoDriverManager
 from shutil import which
 
 
-def check_requirements():
-    using = ['yt-dlp', 'opusenc', 'opusdec']
-    for i in using:
-        if which(i) is None:
-            return False
-
-    return True
-
-
 class Cloner:
     def __init__(self, music_folder_path: str, url_list: list, driver: webdriver.Firefox, temp_folder: str):
         self.driver = driver
@@ -118,23 +109,11 @@ class Cloner:
 
 
 def valid_args():
-    my_list = []
+    return [line if '\n' not in line else line[:-1] for line in open(argv[1]).readlines()] if len(argv) == 2 else exit(1)
 
-    if len(argv) == 2:
-        url_list_file = argv[1]
-        with open(url_list_file, 'r') as f:
-            for line in f:
-                if '\n' in line:
-                    my_list.append(line[:-1])
-                else:
-                    if line:
-                        my_list.append(line)
 
-        return my_list
-
-    else:
-        print("Please give me a url list from music.youtube.com!")
-        exit(1)
+def check_requirements():
+    return True not in [which(i) is None for i in ['yt-dlp', 'opusenc', 'opusdec']]
 
 
 def main():
@@ -148,7 +127,7 @@ def main():
     driver = webdriver.Firefox(service=service, options=options)
 
     path = "/home/navidrome/music/volkantasci"  # IMPORTANT Change this PATH!
-    temp = "/home/navidrome/temp"               # IMPORTANT Change this PATH!
+    temp = "/home/navidrome/temp"  # IMPORTANT Change this PATH!
     my_list = valid_args()
 
     cloner = Cloner(path, my_list, driver, temp)
