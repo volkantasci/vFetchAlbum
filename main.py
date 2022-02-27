@@ -109,7 +109,8 @@ class Cloner:
 
 
 def valid_args():
-    return [line if '\n' not in line else line[:-1] for line in open(argv[1]).readlines()] if len(argv) == 2 else exit(1)
+    return [line if '\n' not in line else line[:-1] for line in open(argv[1]).readlines()] if len(argv) == 2 else print(
+        "Missing URL File") or exit(1)
 
 
 def check_requirements():
