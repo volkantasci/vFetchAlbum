@@ -119,7 +119,7 @@ def check_requirements():
 
 def main():
     if not check_requirements():
-        print("Install all requirements!")
+        print("Install all requirements programs in Readme.md file!")
         return 9  # Error Code
 
     options = Options()
